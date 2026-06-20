@@ -1,0 +1,173 @@
+import Foundation
+import MapKit
+import Observation
+import SwiftUI
+
+enum NearbySheetRoute: Identifiable, Equatable {
+    case zoneDetail(SportZone)
+    case userList(SportZone)
+    case sportTopic(NearbyUser)
+
+    var id: String {
+        switch self {
+        case .zoneDetail(let zone):
+            "zone-\(zone.id)"
+        case .userList(let zone):
+            "users-\(zone.id)"
+        case .sportTopic(let user):
+            "topic-\(user.id)"
+        }
+    }
+
+    static func == (lhs: NearbySheetRoute, rhs: NearbySheetRoute) -> Bool {
+        lhs.id == rhs.id
+    }
+}
+
+@MainActor
+@Observable
+final class NearbyViewModel {
+    private let api: PengPengAPI
+
+    var zones: [SportZone] = MockData.sportZones
+    var todayWorkout: WorkoutSummary = MockData.todayWorkout
+    var sameSportUsers: [NearbyUser] = []
+    var activeSheet: NearbySheetRoute?
+    var selectedTopic: SportTopic?
+    var matchedUser: NearbyUser?
+    var bumpSent = false
+    var mapCameraPosition: MapCameraPosition = MockData.nearbyCameraPosition
+    var highlightedZoneID: String?
+    var isLoading = false
+    var lastError: String?
+    var hasTodayPresence = false
+
+    var defaultBumpZone: SportZone {
+        zones.first(where: { $0.sport == todayWorkout.sport }) ?? MockData.strengthZone
+    }
+
+    var sportTopics: [SportTopic] { MockData.sportTopics }
+
+    var isAuthenticated: Bool { api.isAuthenticated }
+
+    init(api: PengPengAPI) {
+        self.api = api
+    }
+
+    convenience init() {
+        self.init(api: PengPengAPI())
+        sameSportUsers = MockData.sameSportUsers
+    }
+
+    func load() async {
+        guard api.isAuthenticated else {
+            sameSportUsers = MockData.sameSportUsers
+            zones = MockData.sportZones
+            todayWorkout = MockData.todayWorkout
+            return
+        }
+
+        isLoading = true
+        defer { isLoading = false }
+
+        do {
+            let presences = try await api.fetchTodayPresences()
+            zones = PBMapping.sportZones(from: presences)
+
+            if let mine = try await api.fetchMyTodayPresence(),
+               let workout = PBMapping.workoutSummary(
+                   from: mine,
+                   nearbyCount: presences.filter { $0.sport == mine.sport }.count
+               ) {
+                todayWorkout = workout
+                hasTodayPresence = true
+            } else {
+                hasTodayPresence = false
+            }
+
+            sameSportUsers = try await api.fetchNearbyUsers(sport: todayWorkout.sport)
+            lastError = nil
+        } catch {
+            lastError = error.localizedDescription
+            sameSportUsers = MockData.sameSportUsers
+        }
+    }
+
+    func loadUsers(for zone: SportZone) async {
+        guard api.isAuthenticated else {
+            sameSportUsers = MockData.sameSportUsers
+            return
+        }
+
+        do {
+            sameSportUsers = try await api.fetchNearbyUsers(sport: zone.sport)
+        } catch {
+            lastError = error.localizedDescription
+        }
+    }
+
+    func openZone(_ zone: SportZone) {
+        highlightedZoneID = zone.id
+        withMapAnimation {
+            mapCameraPosition = focusCamera(for: zone)
+        }
+        activeSheet = .zoneDetail(zone)
+    }
+
+    func focusCamera(for zone: SportZone) -> MapCameraPosition {
+        .camera(zone.focusCamera)
+    }
+
+    func clearZoneHighlight() {
+        highlightedZoneID = nil
+    }
+
+    func resetMapFocus() {
+        highlightedZoneID = nil
+        withMapAnimation {
+            mapCameraPosition = MockData.nearbyCameraPosition
+        }
+    }
+
+    func openUserList(for zone: SportZone) {
+        activeSheet = .userList(zone)
+        Task { await loadUsers(for: zone) }
+    }
+
+    func openDefaultBumpFlow() {
+        openUserList(for: defaultBumpZone)
+    }
+
+    func bump(user: NearbyUser) {
+        matchedUser = user
+        selectedTopic = nil
+        bumpSent = false
+        activeSheet = .sportTopic(user)
+    }
+
+    func selectTopic(_ topic: SportTopic?) {
+        selectedTopic = topic
+    }
+
+    func markBumpSent() {
+        bumpSent = true
+    }
+
+    func conversation(for topic: SportTopic) -> [TopicMessage] {
+        guard let user = matchedUser else { return [] }
+        return MockData.topicConversation(for: topic, partner: user)
+    }
+
+    func dismissSheet() {
+        activeSheet = nil
+        bumpSent = false
+        selectedTopic = nil
+        matchedUser = nil
+    }
+
+    private func withMapAnimation(_ updates: () -> Void) {
+        withAnimation(.easeInOut(duration: 0.45)) {
+            updates()
+        }
+    }
+}

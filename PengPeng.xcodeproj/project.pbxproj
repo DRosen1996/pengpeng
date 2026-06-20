@@ -1,0 +1,558 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B10000000000000000000001 /* PengPengApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000001 /* PengPengApp.swift */; };
+		B10000000000000000000002 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000002 /* MainTabView.swift */; };
+		B10000000000000000000003 /* SportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000003 /* SportType.swift */; };
+		B10000000000000000000004 /* SportZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000004 /* SportZone.swift */; };
+		B10000000000000000000005 /* NearbyUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000005 /* NearbyUser.swift */; };
+		B10000000000000000000006 /* WorkoutSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000006 /* WorkoutSummary.swift */; };
+		B10000000000000000000008 /* SportTopic.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000008 /* SportTopic.swift */; };
+		B10000000000000000000009 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000009 /* MockData.swift */; };
+		B1000000000000000000000A /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000000A /* AppTheme.swift */; };
+		B1000000000000000000000B /* NearbyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000000B /* NearbyViewModel.swift */; };
+		B1000000000000000000000C /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000000C /* ProfileViewModel.swift */; };
+		B1000000000000000000000D /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000000D /* PrimaryButton.swift */; };
+		B1000000000000000000000E /* SheetHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000000E /* SheetHeader.swift */; };
+		B1000000000000000000000F /* UserBumpCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000000F /* UserBumpCard.swift */; };
+		B10000000000000000000010 /* StatRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000010 /* StatRow.swift */; };
+		B10000000000000000000011 /* TagChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000011 /* TagChip.swift */; };
+		B10000000000000000000012 /* ConversationPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000012 /* ConversationPreview.swift */; };
+		B10000000000000000000013 /* SectionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000013 /* SectionCard.swift */; };
+		B10000000000000000000014 /* NearbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000014 /* NearbyView.swift */; };
+		B10000000000000000000015 /* NearbyMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000015 /* NearbyMapView.swift */; };
+		B10000000000000000000016 /* BottomActionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000016 /* BottomActionCard.swift */; };
+		B10000000000000000000017 /* SportZoneSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000017 /* SportZoneSheet.swift */; };
+		B10000000000000000000018 /* SameSportUsersSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000018 /* SameSportUsersSheet.swift */; };
+		B1000000000000000000001A /* SportTopicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000001A /* SportTopicView.swift */; };
+		B1000000000000000000001B /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000001B /* ProfileView.swift */; };
+		B1000000000000000000001C /* ProfileHeaderCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000001C /* ProfileHeaderCard.swift */; };
+		B1000000000000000000001D /* TodayWorkoutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000001D /* TodayWorkoutSection.swift */; };
+		B1000000000000000000001E /* SportCardSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000001E /* SportCardSection.swift */; };
+		B1000000000000000000001F /* ReceivedBumpsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000001F /* ReceivedBumpsSection.swift */; };
+		B10000000000000000000020 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000020 /* Assets.xcassets */; };
+		B10000000000000000000021 /* SportZoneMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000021 /* SportZoneMapAnnotation.swift */; };
+		B10000000000000000000022 /* PendingBump.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000022 /* PendingBump.swift */; };
+		B10000000000000000000023 /* SportConversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000023 /* SportConversation.swift */; };
+		B10000000000000000000024 /* ConversationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000024 /* ConversationStore.swift */; };
+		B10000000000000000000025 /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000025 /* MessagesView.swift */; };
+		B10000000000000000000026 /* PendingBumpRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000026 /* PendingBumpRow.swift */; };
+		B10000000000000000000027 /* ConversationRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000027 /* ConversationRow.swift */; };
+		B10000000000000000000028 /* ConversationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000028 /* ConversationDetailView.swift */; };
+		B10000000000000000000029 /* MessageComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000029 /* MessageComposer.swift */; };
+		B1000000000000000000002A /* TopicPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000002A /* TopicPicker.swift */; };
+		B1000000000000000000002B /* MessageBubbleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000002B /* MessageBubbleList.swift */; };
+		B10000000000000000000030 /* APIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000030 /* APIConfig.swift */; };
+		B10000000000000000000031 /* PocketBaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000031 /* PocketBaseClient.swift */; };
+		B10000000000000000000032 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000032 /* TokenStore.swift */; };
+		B10000000000000000000033 /* PengPengAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000033 /* PengPengAPI.swift */; };
+		B10000000000000000000034 /* PBRecords.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000034 /* PBRecords.swift */; };
+		B10000000000000000000035 /* PBMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000035 /* PBMapping.swift */; };
+		B10000000000000000000036 /* AppSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000036 /* AppSession.swift */; };
+		B10000000000000000000037 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000037 /* LoginView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B20000000000000000000001 /* PengPengApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PengPengApp.swift; sourceTree = "<group>"; };
+		B20000000000000000000002 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		B20000000000000000000003 /* SportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportType.swift; sourceTree = "<group>"; };
+		B20000000000000000000004 /* SportZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportZone.swift; sourceTree = "<group>"; };
+		B20000000000000000000005 /* NearbyUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyUser.swift; sourceTree = "<group>"; };
+		B20000000000000000000006 /* WorkoutSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutSummary.swift; sourceTree = "<group>"; };
+		B20000000000000000000008 /* SportTopic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportTopic.swift; sourceTree = "<group>"; };
+		B20000000000000000000009 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		B2000000000000000000000A /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
+		B2000000000000000000000B /* NearbyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyViewModel.swift; sourceTree = "<group>"; };
+		B2000000000000000000000C /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		B2000000000000000000000D /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
+		B2000000000000000000000E /* SheetHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetHeader.swift; sourceTree = "<group>"; };
+		B2000000000000000000000F /* UserBumpCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBumpCard.swift; sourceTree = "<group>"; };
+		B20000000000000000000010 /* StatRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatRow.swift; sourceTree = "<group>"; };
+		B20000000000000000000011 /* TagChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagChip.swift; sourceTree = "<group>"; };
+		B20000000000000000000012 /* ConversationPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationPreview.swift; sourceTree = "<group>"; };
+		B20000000000000000000013 /* SectionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionCard.swift; sourceTree = "<group>"; };
+		B20000000000000000000014 /* NearbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyView.swift; sourceTree = "<group>"; };
+		B20000000000000000000015 /* NearbyMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyMapView.swift; sourceTree = "<group>"; };
+		B20000000000000000000016 /* BottomActionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomActionCard.swift; sourceTree = "<group>"; };
+		B20000000000000000000017 /* SportZoneSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportZoneSheet.swift; sourceTree = "<group>"; };
+		B20000000000000000000018 /* SameSportUsersSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SameSportUsersSheet.swift; sourceTree = "<group>"; };
+		B2000000000000000000001A /* SportTopicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportTopicView.swift; sourceTree = "<group>"; };
+		B2000000000000000000001B /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		B2000000000000000000001C /* ProfileHeaderCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderCard.swift; sourceTree = "<group>"; };
+		B2000000000000000000001D /* TodayWorkoutSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWorkoutSection.swift; sourceTree = "<group>"; };
+		B2000000000000000000001E /* SportCardSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportCardSection.swift; sourceTree = "<group>"; };
+		B2000000000000000000001F /* ReceivedBumpsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedBumpsSection.swift; sourceTree = "<group>"; };
+		B20000000000000000000020 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B20000000000000000000021 /* SportZoneMapAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportZoneMapAnnotation.swift; sourceTree = "<group>"; };
+		B20000000000000000000022 /* PendingBump.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingBump.swift; sourceTree = "<group>"; };
+		B20000000000000000000023 /* SportConversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportConversation.swift; sourceTree = "<group>"; };
+		B20000000000000000000024 /* ConversationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationStore.swift; sourceTree = "<group>"; };
+		B20000000000000000000025 /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
+		B20000000000000000000026 /* PendingBumpRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingBumpRow.swift; sourceTree = "<group>"; };
+		B20000000000000000000027 /* ConversationRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationRow.swift; sourceTree = "<group>"; };
+		B20000000000000000000028 /* ConversationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDetailView.swift; sourceTree = "<group>"; };
+		B20000000000000000000029 /* MessageComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageComposer.swift; sourceTree = "<group>"; };
+		B2000000000000000000002A /* TopicPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicPicker.swift; sourceTree = "<group>"; };
+		B2000000000000000000002B /* MessageBubbleList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubbleList.swift; sourceTree = "<group>"; };
+		B20000000000000000000030 /* APIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfig.swift; sourceTree = "<group>"; };
+		B20000000000000000000031 /* PocketBaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketBaseClient.swift; sourceTree = "<group>"; };
+		B20000000000000000000032 /* TokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
+		B20000000000000000000033 /* PengPengAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PengPengAPI.swift; sourceTree = "<group>"; };
+		B20000000000000000000034 /* PBRecords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBRecords.swift; sourceTree = "<group>"; };
+		B20000000000000000000035 /* PBMapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBMapping.swift; sourceTree = "<group>"; };
+		B20000000000000000000036 /* AppSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSession.swift; sourceTree = "<group>"; };
+		B20000000000000000000037 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		B20000000000000000000038 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B30000000000000000000001 /* PengPeng.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PengPeng.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B40000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B50000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				B50000000000000000000002 /* PengPeng */,
+				B50000000000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B50000000000000000000002 /* PengPeng */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000001 /* PengPengApp.swift */,
+				B20000000000000000000038 /* Info.plist */,
+				B50000000000000000000004 /* Models */,
+				B50000000000000000000005 /* Mock */,
+				B5000000000000000000000E /* Services */,
+				B50000000000000000000006 /* Theme */,
+				B50000000000000000000007 /* ViewModels */,
+				B50000000000000000000008 /* Components */,
+				B50000000000000000000009 /* Views */,
+				B20000000000000000000020 /* Assets.xcassets */,
+			);
+			path = PengPeng;
+			sourceTree = "<group>";
+		};
+		B50000000000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B30000000000000000000001 /* PengPeng.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B50000000000000000000004 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000003 /* SportType.swift */,
+				B20000000000000000000004 /* SportZone.swift */,
+				B20000000000000000000005 /* NearbyUser.swift */,
+				B20000000000000000000006 /* WorkoutSummary.swift */,
+				B20000000000000000000022 /* PendingBump.swift */,
+				B20000000000000000000023 /* SportConversation.swift */,
+				B20000000000000000000008 /* SportTopic.swift */,
+				B50000000000000000000010 /* API */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B50000000000000000000005 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000009 /* MockData.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
+		B50000000000000000000006 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				B2000000000000000000000A /* AppTheme.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		B50000000000000000000007 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000036 /* AppSession.swift */,
+				B2000000000000000000000B /* NearbyViewModel.swift */,
+				B2000000000000000000000C /* ProfileViewModel.swift */,
+				B20000000000000000000024 /* ConversationStore.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		B50000000000000000000008 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B2000000000000000000000D /* PrimaryButton.swift */,
+				B2000000000000000000000E /* SheetHeader.swift */,
+				B2000000000000000000000F /* UserBumpCard.swift */,
+				B20000000000000000000010 /* StatRow.swift */,
+				B20000000000000000000011 /* TagChip.swift */,
+				B20000000000000000000012 /* ConversationPreview.swift */,
+				B20000000000000000000013 /* SectionCard.swift */,
+				B20000000000000000000021 /* SportZoneMapAnnotation.swift */,
+				B2000000000000000000002A /* TopicPicker.swift */,
+				B2000000000000000000002B /* MessageBubbleList.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B50000000000000000000009 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000002 /* MainTabView.swift */,
+				B50000000000000000000011 /* Auth */,
+				B5000000000000000000000A /* Nearby */,
+				B5000000000000000000000D /* Messages */,
+				B5000000000000000000000B /* Profile */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B5000000000000000000000A /* Nearby */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000014 /* NearbyView.swift */,
+				B20000000000000000000015 /* NearbyMapView.swift */,
+				B20000000000000000000016 /* BottomActionCard.swift */,
+				B2000000000000000000001A /* SportTopicView.swift */,
+				B5000000000000000000000C /* Sheets */,
+			);
+			path = Nearby;
+			sourceTree = "<group>";
+		};
+		B5000000000000000000000B /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				B2000000000000000000001B /* ProfileView.swift */,
+				B2000000000000000000001C /* ProfileHeaderCard.swift */,
+				B2000000000000000000001D /* TodayWorkoutSection.swift */,
+				B2000000000000000000001E /* SportCardSection.swift */,
+				B2000000000000000000001F /* ReceivedBumpsSection.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		B5000000000000000000000C /* Sheets */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000017 /* SportZoneSheet.swift */,
+				B20000000000000000000018 /* SameSportUsersSheet.swift */,
+			);
+			path = Sheets;
+			sourceTree = "<group>";
+		};
+		B5000000000000000000000D /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000025 /* MessagesView.swift */,
+				B20000000000000000000026 /* PendingBumpRow.swift */,
+				B20000000000000000000027 /* ConversationRow.swift */,
+				B20000000000000000000028 /* ConversationDetailView.swift */,
+				B20000000000000000000029 /* MessageComposer.swift */,
+			);
+			path = Messages;
+			sourceTree = "<group>";
+		};
+		B5000000000000000000000E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000030 /* APIConfig.swift */,
+				B20000000000000000000031 /* PocketBaseClient.swift */,
+				B20000000000000000000032 /* TokenStore.swift */,
+				B20000000000000000000033 /* PengPengAPI.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		B50000000000000000000010 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000034 /* PBRecords.swift */,
+				B20000000000000000000035 /* PBMapping.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		B50000000000000000000011 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				B20000000000000000000037 /* LoginView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B60000000000000000000001 /* PengPeng */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B80000000000000000000003 /* Build configuration list for PBXNativeTarget "PengPeng" */;
+			buildPhases = (
+				B70000000000000000000001 /* Sources */,
+				B40000000000000000000001 /* Frameworks */,
+				B70000000000000000000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PengPeng;
+			productName = PengPeng;
+			productReference = B30000000000000000000001 /* PengPeng.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B90000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					B60000000000000000000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = B80000000000000000000001 /* Build configuration list for PBXProject "PengPeng" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = "zh-Hans";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = B50000000000000000000001;
+			productRefGroup = B50000000000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B60000000000000000000001 /* PengPeng */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B70000000000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B10000000000000000000020 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B70000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B10000000000000000000001 /* PengPengApp.swift in Sources */,
+				B10000000000000000000002 /* MainTabView.swift in Sources */,
+				B10000000000000000000003 /* SportType.swift in Sources */,
+				B10000000000000000000004 /* SportZone.swift in Sources */,
+				B10000000000000000000005 /* NearbyUser.swift in Sources */,
+				B10000000000000000000006 /* WorkoutSummary.swift in Sources */,
+				B10000000000000000000022 /* PendingBump.swift in Sources */,
+				B10000000000000000000023 /* SportConversation.swift in Sources */,
+				B10000000000000000000008 /* SportTopic.swift in Sources */,
+				B10000000000000000000009 /* MockData.swift in Sources */,
+				B1000000000000000000000A /* AppTheme.swift in Sources */,
+				B1000000000000000000000B /* NearbyViewModel.swift in Sources */,
+				B1000000000000000000000C /* ProfileViewModel.swift in Sources */,
+				B10000000000000000000024 /* ConversationStore.swift in Sources */,
+				B1000000000000000000000D /* PrimaryButton.swift in Sources */,
+				B1000000000000000000000E /* SheetHeader.swift in Sources */,
+				B1000000000000000000000F /* UserBumpCard.swift in Sources */,
+				B10000000000000000000010 /* StatRow.swift in Sources */,
+				B10000000000000000000011 /* TagChip.swift in Sources */,
+				B10000000000000000000012 /* ConversationPreview.swift in Sources */,
+				B10000000000000000000013 /* SectionCard.swift in Sources */,
+				B10000000000000000000014 /* NearbyView.swift in Sources */,
+				B10000000000000000000015 /* NearbyMapView.swift in Sources */,
+				B10000000000000000000021 /* SportZoneMapAnnotation.swift in Sources */,
+				B1000000000000000000002A /* TopicPicker.swift in Sources */,
+				B1000000000000000000002B /* MessageBubbleList.swift in Sources */,
+				B10000000000000000000025 /* MessagesView.swift in Sources */,
+				B10000000000000000000026 /* PendingBumpRow.swift in Sources */,
+				B10000000000000000000027 /* ConversationRow.swift in Sources */,
+				B10000000000000000000028 /* ConversationDetailView.swift in Sources */,
+				B10000000000000000000029 /* MessageComposer.swift in Sources */,
+				B10000000000000000000016 /* BottomActionCard.swift in Sources */,
+				B10000000000000000000017 /* SportZoneSheet.swift in Sources */,
+				B10000000000000000000018 /* SameSportUsersSheet.swift in Sources */,
+				B1000000000000000000001A /* SportTopicView.swift in Sources */,
+				B1000000000000000000001B /* ProfileView.swift in Sources */,
+				B1000000000000000000001C /* ProfileHeaderCard.swift in Sources */,
+				B1000000000000000000001D /* TodayWorkoutSection.swift in Sources */,
+				B1000000000000000000001E /* SportCardSection.swift in Sources */,
+				B1000000000000000000001F /* ReceivedBumpsSection.swift in Sources */,
+				B10000000000000000000030 /* APIConfig.swift in Sources */,
+				B10000000000000000000031 /* PocketBaseClient.swift in Sources */,
+				B10000000000000000000032 /* TokenStore.swift in Sources */,
+				B10000000000000000000033 /* PengPengAPI.swift in Sources */,
+				B10000000000000000000034 /* PBRecords.swift in Sources */,
+				B10000000000000000000035 /* PBMapping.swift in Sources */,
+				B10000000000000000000036 /* AppSession.swift in Sources */,
+				B10000000000000000000037 /* LoginView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BA000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BA000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BA000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N4WX8UWM73;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PengPeng/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "碰碰";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rosen.pengpeng;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		BA000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N4WX8UWM73;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PengPeng/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "碰碰";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rosen.pengpeng;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B80000000000000000000001 /* Build configuration list for PBXProject "PengPeng" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA000000000000000000001 /* Debug */,
+				BA000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B80000000000000000000003 /* Build configuration list for PBXNativeTarget "PengPeng" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA000000000000000000003 /* Debug */,
+				BA000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B90000000000000000000001 /* Project object */;
+}

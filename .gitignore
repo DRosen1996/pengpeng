@@ -1,0 +1,18 @@
+# Xcode
+.DS_Store
+build/
+DerivedData/
+.derivedData/
+*.xcuserstate
+xcuserdata/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# CocoaPods（如以后用到）
+Pods/
+
+# 环境/密钥（如以后用到）
+.env
+*.pem
