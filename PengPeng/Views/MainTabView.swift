@@ -4,14 +4,21 @@ struct MainTabView: View {
     @Environment(AppSession.self) private var session
     @Environment(ConversationStore.self) private var store
     @State private var selectedTab = 0
+    @State private var nearbyViewModel: NearbyViewModel?
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            NearbyView(selectedTab: $selectedTab, api: session.api)
-                .tabItem {
-                    Label("附近", systemImage: "location")
+            Group {
+                if let nearbyViewModel {
+                    NearbyView(selectedTab: $selectedTab, viewModel: nearbyViewModel)
+                } else {
+                    ProgressView()
                 }
-                .tag(0)
+            }
+            .tabItem {
+                Label("附近", systemImage: "location")
+            }
+            .tag(0)
 
             MessagesView(selectedTab: $selectedTab)
                 .tabItem {
@@ -27,6 +34,14 @@ struct MainTabView: View {
                 .tag(2)
         }
         .tint(AppTheme.accent)
+        .onAppear {
+            if nearbyViewModel == nil {
+                nearbyViewModel = NearbyViewModel(
+                    api: session.api,
+                    workoutStore: session.workoutStore
+                )
+            }
+        }
     }
 }
 

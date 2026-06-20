@@ -3,16 +3,14 @@ import SwiftUI
 struct NearbyView: View {
     @Environment(ConversationStore.self) private var store
     @Binding var selectedTab: Int
-    @State private var viewModel: NearbyViewModel
+    @Bindable var viewModel: NearbyViewModel
 
-    init(selectedTab: Binding<Int>, api: PengPengAPI) {
+    init(selectedTab: Binding<Int>, viewModel: NearbyViewModel) {
         _selectedTab = selectedTab
-        _viewModel = State(initialValue: NearbyViewModel(api: api))
+        self.viewModel = viewModel
     }
 
     var body: some View {
-        @Bindable var viewModel = viewModel
-
         ZStack(alignment: .bottom) {
             NearbyMapView(
                 zones: viewModel.zones,
@@ -156,6 +154,17 @@ struct NearbyView: View {
 }
 
 #Preview {
-    NearbyView(selectedTab: .constant(0), api: PengPengAPI())
-        .environment(ConversationStore())
+    let api = PengPengAPI()
+    NearbyView(
+        selectedTab: .constant(0),
+        viewModel: NearbyViewModel(
+            api: api,
+            workoutStore: TodayWorkoutStore(
+                api: api,
+                healthKit: HealthKitService(),
+                location: LocationService()
+            )
+        )
+    )
+    .environment(ConversationStore(api: api))
 }

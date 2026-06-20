@@ -15,5 +15,9 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSHealthShareUsageDescription</key>
+	<string>碰碰需要读取你的运动类型、训练时长和活动能量，用于匹配附近同项目的运动者。数据仅在你确认同步后才会用于附近展示。</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>同步今日运动时，碰碰会获取你的模糊位置（geohash），用于匹配附近同项目的人，不会展示精确轨迹。</string>
 </dict>
 </plist>

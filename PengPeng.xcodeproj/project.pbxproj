@@ -56,6 +56,17 @@
 		B10000000000000000000035 /* PBMapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000035 /* PBMapping.swift */; };
 		B10000000000000000000036 /* AppSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000036 /* AppSession.swift */; };
 		B10000000000000000000037 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000037 /* LoginView.swift */; };
+		B10000000000000000000038 /* TodayWorkoutCandidate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000039 /* TodayWorkoutCandidate.swift */; };
+		B10000000000000000000039 /* HKWorkoutActivityType+SportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000003A /* HKWorkoutActivityType+SportType.swift */; };
+		B1000000000000000000003A /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000003B /* HealthKitService.swift */; };
+		B1000000000000000000003B /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000003C /* LocationService.swift */; };
+		B1000000000000000000003C /* Geohash.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000003D /* Geohash.swift */; };
+		B1000000000000000000003D /* TodayWorkoutStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000003E /* TodayWorkoutStore.swift */; };
+		B1000000000000000000003E /* WorkoutPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000000000000000000003F /* WorkoutPicker.swift */; };
+		B1000000000000000000003F /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B20000000000000000000041 /* HealthKit.framework */; };
+		B10000000000000000000040 /* DeveloperDebugSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000042 /* DeveloperDebugSnapshot.swift */; };
+		B10000000000000000000041 /* DeveloperDebugViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000043 /* DeveloperDebugViewModel.swift */; };
+		B10000000000000000000042 /* DeveloperDebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000044 /* DeveloperDebugView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,6 +120,18 @@
 		B20000000000000000000036 /* AppSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSession.swift; sourceTree = "<group>"; };
 		B20000000000000000000037 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B20000000000000000000038 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B20000000000000000000039 /* TodayWorkoutCandidate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWorkoutCandidate.swift; sourceTree = "<group>"; };
+		B2000000000000000000003A /* HKWorkoutActivityType+SportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKWorkoutActivityType+SportType.swift"; sourceTree = "<group>"; };
+		B2000000000000000000003B /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
+		B2000000000000000000003C /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		B2000000000000000000003D /* Geohash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geohash.swift; sourceTree = "<group>"; };
+		B2000000000000000000003E /* TodayWorkoutStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWorkoutStore.swift; sourceTree = "<group>"; };
+		B2000000000000000000003F /* WorkoutPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutPicker.swift; sourceTree = "<group>"; };
+		B20000000000000000000040 /* PengPeng.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PengPeng.entitlements; sourceTree = "<group>"; };
+		B20000000000000000000041 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		B20000000000000000000042 /* DeveloperDebugSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperDebugSnapshot.swift; sourceTree = "<group>"; };
+		B20000000000000000000043 /* DeveloperDebugViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperDebugViewModel.swift; sourceTree = "<group>"; };
+		B20000000000000000000044 /* DeveloperDebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperDebugView.swift; sourceTree = "<group>"; };
 		B30000000000000000000001 /* PengPeng.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PengPeng.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -117,6 +140,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1000000000000000000003F /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,7 +160,9 @@
 			children = (
 				B20000000000000000000001 /* PengPengApp.swift */,
 				B20000000000000000000038 /* Info.plist */,
+				B20000000000000000000040 /* PengPeng.entitlements */,
 				B50000000000000000000004 /* Models */,
+				B50000000000000000000012 /* Utilities */,
 				B50000000000000000000005 /* Mock */,
 				B5000000000000000000000E /* Services */,
 				B50000000000000000000006 /* Theme */,
@@ -166,6 +192,9 @@
 				B20000000000000000000022 /* PendingBump.swift */,
 				B20000000000000000000023 /* SportConversation.swift */,
 				B20000000000000000000008 /* SportTopic.swift */,
+				B20000000000000000000039 /* TodayWorkoutCandidate.swift */,
+				B2000000000000000000003A /* HKWorkoutActivityType+SportType.swift */,
+				B20000000000000000000042 /* DeveloperDebugSnapshot.swift */,
 				B50000000000000000000010 /* API */,
 			);
 			path = Models;
@@ -194,6 +223,8 @@
 				B2000000000000000000000B /* NearbyViewModel.swift */,
 				B2000000000000000000000C /* ProfileViewModel.swift */,
 				B20000000000000000000024 /* ConversationStore.swift */,
+				B2000000000000000000003E /* TodayWorkoutStore.swift */,
+				B20000000000000000000043 /* DeveloperDebugViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -211,6 +242,7 @@
 				B20000000000000000000021 /* SportZoneMapAnnotation.swift */,
 				B2000000000000000000002A /* TopicPicker.swift */,
 				B2000000000000000000002B /* MessageBubbleList.swift */,
+				B2000000000000000000003F /* WorkoutPicker.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -247,6 +279,7 @@
 				B2000000000000000000001D /* TodayWorkoutSection.swift */,
 				B2000000000000000000001E /* SportCardSection.swift */,
 				B2000000000000000000001F /* ReceivedBumpsSection.swift */,
+				B20000000000000000000044 /* DeveloperDebugView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -279,6 +312,8 @@
 				B20000000000000000000031 /* PocketBaseClient.swift */,
 				B20000000000000000000032 /* TokenStore.swift */,
 				B20000000000000000000033 /* PengPengAPI.swift */,
+				B2000000000000000000003B /* HealthKitService.swift */,
+				B2000000000000000000003C /* LocationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -298,6 +333,14 @@
 				B20000000000000000000037 /* LoginView.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		B50000000000000000000012 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				B2000000000000000000003D /* Geohash.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -418,6 +461,16 @@
 				B10000000000000000000035 /* PBMapping.swift in Sources */,
 				B10000000000000000000036 /* AppSession.swift in Sources */,
 				B10000000000000000000037 /* LoginView.swift in Sources */,
+				B10000000000000000000038 /* TodayWorkoutCandidate.swift in Sources */,
+				B10000000000000000000039 /* HKWorkoutActivityType+SportType.swift in Sources */,
+				B1000000000000000000003A /* HealthKitService.swift in Sources */,
+				B1000000000000000000003B /* LocationService.swift in Sources */,
+				B1000000000000000000003C /* Geohash.swift in Sources */,
+				B1000000000000000000003D /* TodayWorkoutStore.swift in Sources */,
+				B1000000000000000000003E /* WorkoutPicker.swift in Sources */,
+				B10000000000000000000040 /* DeveloperDebugSnapshot.swift in Sources */,
+				B10000000000000000000041 /* DeveloperDebugViewModel.swift in Sources */,
+				B10000000000000000000042 /* DeveloperDebugView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,6 +527,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PengPeng/PengPeng.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N4WX8UWM73;
@@ -505,6 +559,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PengPeng/PengPeng.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N4WX8UWM73;

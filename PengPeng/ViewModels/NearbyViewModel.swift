@@ -28,9 +28,9 @@ enum NearbySheetRoute: Identifiable, Equatable {
 @Observable
 final class NearbyViewModel {
     private let api: PengPengAPI
+    private let workoutStore: TodayWorkoutStore
 
     var zones: [SportZone] = MockData.sportZones
-    var todayWorkout: WorkoutSummary = MockData.todayWorkout
     var sameSportUsers: [NearbyUser] = []
     var activeSheet: NearbySheetRoute?
     var selectedTopic: SportTopic?
@@ -40,7 +40,9 @@ final class NearbyViewModel {
     var highlightedZoneID: String?
     var isLoading = false
     var lastError: String?
-    var hasTodayPresence = false
+
+    var todayWorkout: WorkoutSummary { workoutStore.displayWorkout }
+    var hasTodayPresence: Bool { workoutStore.hasTodayPresence }
 
     var defaultBumpZone: SportZone {
         zones.first(where: { $0.sport == todayWorkout.sport }) ?? MockData.strengthZone
@@ -50,12 +52,21 @@ final class NearbyViewModel {
 
     var isAuthenticated: Bool { api.isAuthenticated }
 
-    init(api: PengPengAPI) {
+    init(api: PengPengAPI, workoutStore: TodayWorkoutStore) {
         self.api = api
+        self.workoutStore = workoutStore
     }
 
     convenience init() {
-        self.init(api: PengPengAPI())
+        let api = PengPengAPI()
+        self.init(
+            api: api,
+            workoutStore: TodayWorkoutStore(
+                api: api,
+                healthKit: HealthKitService(),
+                location: LocationService()
+            )
+        )
         sameSportUsers = MockData.sameSportUsers
     }
 
@@ -63,7 +74,7 @@ final class NearbyViewModel {
         guard api.isAuthenticated else {
             sameSportUsers = MockData.sameSportUsers
             zones = MockData.sportZones
-            todayWorkout = MockData.todayWorkout
+            await workoutStore.refresh()
             return
         }
 
@@ -71,20 +82,10 @@ final class NearbyViewModel {
         defer { isLoading = false }
 
         do {
+            await workoutStore.refresh()
+
             let presences = try await api.fetchTodayPresences()
             zones = PBMapping.sportZones(from: presences)
-
-            if let mine = try await api.fetchMyTodayPresence(),
-               let workout = PBMapping.workoutSummary(
-                   from: mine,
-                   nearbyCount: presences.filter { $0.sport == mine.sport }.count
-               ) {
-                todayWorkout = workout
-                hasTodayPresence = true
-            } else {
-                hasTodayPresence = false
-            }
-
             sameSportUsers = try await api.fetchNearbyUsers(sport: todayWorkout.sport)
             lastError = nil
         } catch {
