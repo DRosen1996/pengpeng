@@ -61,16 +61,35 @@ final class PocketBaseClient {
             body: body,
             authenticated: false
         )
-        tokenStore.save(
-            token: response.token,
-            userID: response.record.id,
-            userName: response.record.name
+        saveAuthResponse(response)
+        return response
+    }
+
+    func authWithApple(identityToken: String, fullName: String?) async throws -> PBAuthResponse {
+        struct Body: Encodable {
+            let identityToken: String
+            let fullName: String?
+        }
+        let response: PBAuthResponse = try await request(
+            method: "POST",
+            path: APIConfig.appleAuthPath,
+            body: Body(identityToken: identityToken, fullName: fullName),
+            authenticated: false
         )
+        saveAuthResponse(response)
         return response
     }
 
     func logout() {
         tokenStore.clear()
+    }
+
+    private func saveAuthResponse(_ response: PBAuthResponse) {
+        tokenStore.save(
+            token: response.token,
+            userID: response.record.id,
+            userName: response.record.name
+        )
     }
 
     // MARK: - Records

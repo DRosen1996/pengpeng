@@ -24,10 +24,18 @@ final class AppSession {
     func login(email: String, password: String) async -> Bool {
         do {
             try await api.login(email: email, password: password)
-            isAuthenticated = true
-            userName = api.currentUserName
-            lastError = nil
-            await workoutStore.refresh()
+            await completeLogin()
+            return true
+        } catch {
+            lastError = error.localizedDescription
+            return false
+        }
+    }
+
+    func loginWithApple(identityToken: String, fullName: String?) async -> Bool {
+        do {
+            try await api.loginWithApple(identityToken: identityToken, fullName: fullName)
+            await completeLogin()
             return true
         } catch {
             lastError = error.localizedDescription
@@ -45,5 +53,12 @@ final class AppSession {
     func syncFromTokenStore() {
         isAuthenticated = api.isAuthenticated
         userName = api.currentUserName
+    }
+
+    private func completeLogin() async {
+        isAuthenticated = true
+        userName = api.currentUserName
+        lastError = nil
+        await workoutStore.refresh()
     }
 }

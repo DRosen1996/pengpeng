@@ -17,6 +17,10 @@ final class PengPengAPI {
         _ = try await client.authWithPassword(identity: email, password: password)
     }
 
+    func loginWithApple(identityToken: String, fullName: String?) async throws {
+        _ = try await client.authWithApple(identityToken: identityToken, fullName: fullName)
+    }
+
     func logout() {
         client.logout()
     }

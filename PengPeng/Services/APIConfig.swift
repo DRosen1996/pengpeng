@@ -4,6 +4,9 @@ enum APIConfig {
     /// PocketBase 服务地址（HTTP 内测；正式环境请换 HTTPS 域名）
     static let baseURL = URL(string: "http://1.14.226.184")!
 
+    /// 原生 Apple 登录自定义 Hook 路径
+    static let appleAuthPath = "/api/auth/apple"
+
     static let usersCollection = "users"
     static let presenceCollection = "presence"
     static let bumpsCollection = "bumps"
