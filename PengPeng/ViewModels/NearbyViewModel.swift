@@ -43,6 +43,8 @@ final class NearbyViewModel {
 
     var todayWorkout: WorkoutSummary { workoutStore.displayWorkout }
     var hasTodayPresence: Bool { workoutStore.hasTodayPresence }
+    var hasDisplayableWorkout: Bool { workoutStore.hasDisplayableWorkout }
+    var nearbyBottomWorkoutState: NearbyBottomWorkoutState { workoutStore.nearbyBottomWorkoutState }
 
     var defaultBumpZone: SportZone {
         zones.first(where: { $0.sport == todayWorkout.sport }) ?? MockData.strengthZone
@@ -71,10 +73,18 @@ final class NearbyViewModel {
     }
 
     func load() async {
+        await workoutStore.refresh()
+
         guard api.isAuthenticated else {
-            sameSportUsers = MockData.sameSportUsers
-            zones = MockData.sportZones
-            await workoutStore.refresh()
+            sameSportUsers = []
+            do {
+                let presences = try await api.fetchTodayPresences()
+                zones = PBMapping.sportZones(from: presences)
+                lastError = nil
+            } catch {
+                zones = PBMapping.sportZones(from: [])
+                lastError = error.localizedDescription
+            }
             return
         }
 
@@ -82,16 +92,18 @@ final class NearbyViewModel {
         defer { isLoading = false }
 
         do {
-            await workoutStore.refresh()
-
             let presences = try await api.fetchTodayPresences()
             zones = PBMapping.sportZones(from: presences)
             sameSportUsers = try await api.fetchNearbyUsers(sport: todayWorkout.sport)
             lastError = nil
         } catch {
             lastError = error.localizedDescription
-            sameSportUsers = MockData.sameSportUsers
+            sameSportUsers = []
         }
+    }
+
+    func requestHealthAccess() async {
+        await workoutStore.requestHealthAccess()
     }
 
     func loadUsers(for zone: SportZone) async {

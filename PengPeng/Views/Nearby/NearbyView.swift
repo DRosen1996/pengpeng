@@ -26,13 +26,7 @@ struct NearbyView: View {
                 Spacer()
             }
 
-            BottomActionCard(
-                workout: viewModel.todayWorkout,
-                openCardCount: viewModel.defaultBumpZone.openCardCount,
-                onBump: { viewModel.openDefaultBumpFlow() }
-            )
-            .padding(.horizontal, 16)
-            .padding(.bottom, 88)
+            bottomWorkoutPanel
         }
         .sheet(item: $viewModel.activeSheet) { route in
             sheetContent(for: route)
@@ -49,6 +43,47 @@ struct NearbyView: View {
             await viewModel.load()
             await store.refresh()
         }
+    }
+
+    private var bottomWorkoutPanel: some View {
+        Group {
+            switch viewModel.nearbyBottomWorkoutState {
+            case .workout:
+                BottomActionCard(
+                    workout: viewModel.todayWorkout,
+                    openCardCount: viewModel.defaultBumpZone.openCardCount,
+                    hasPublishedPresence: viewModel.hasTodayPresence,
+                    onBump: { viewModel.openDefaultBumpFlow() }
+                )
+            case .loading:
+                BottomWorkoutPlaceholderCard(
+                    title: "加载今日训练",
+                    message: "正在读取 Apple 健康数据…",
+                    showsProgress: true
+                )
+            case .needsHealthAuthorization:
+                BottomWorkoutPlaceholderCard(
+                    title: "连接 Apple 健康",
+                    message: "读取今日 Watch 训练，看看附近谁也没白练",
+                    buttonTitle: "连接 Apple 健康",
+                    action: {
+                        Task { await viewModel.requestHealthAccess() }
+                    }
+                )
+            case .healthUnavailable:
+                BottomWorkoutPlaceholderCard(
+                    title: "无法读取健康数据",
+                    message: "Apple 健康需要在 iPhone 真机上使用"
+                )
+            case .noCandidates:
+                BottomWorkoutPlaceholderCard(
+                    title: "今日暂无训练",
+                    message: "还没有可展示的 \(SportType.supportedTitlesText) 训练（≥15 分钟）"
+                )
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.bottom, 88)
     }
 
     private var topOverlay: some View {

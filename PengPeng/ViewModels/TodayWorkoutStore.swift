@@ -2,6 +2,14 @@ import CoreLocation
 import Foundation
 import Observation
 
+enum NearbyBottomWorkoutState: Equatable {
+    case loading
+    case workout
+    case needsHealthAuthorization
+    case healthUnavailable
+    case noCandidates
+}
+
 @MainActor
 @Observable
 final class TodayWorkoutStore {
@@ -11,7 +19,12 @@ final class TodayWorkoutStore {
 
     var candidates: [TodayWorkoutCandidate] = []
     var selectedCandidateID: String?
-    var displayWorkout: WorkoutSummary = MockData.todayWorkout
+    var displayWorkout: WorkoutSummary = WorkoutSummary(
+        sport: .traditionalStrength,
+        durationMinutes: 0,
+        energyKcal: 0,
+        nearbySameSportCount: 0
+    )
     var hasTodayPresence = false
     var healthKitAccess: HealthKitAccessState = .notDetermined
     var isSyncing = false
@@ -39,6 +52,23 @@ final class TodayWorkoutStore {
         api.isAuthenticated && healthKitAccess == .ready && !hasTodayPresence && candidates.isEmpty
     }
 
+    var hasDisplayableWorkout: Bool {
+        selectedCandidate != nil && displayWorkout.durationMinutes > 0
+    }
+
+    var nearbyBottomWorkoutState: NearbyBottomWorkoutState {
+        if hasDisplayableWorkout { return .workout }
+        if isLoading { return .loading }
+        switch healthKitAccess {
+        case .notDetermined:
+            return .needsHealthAuthorization
+        case .unavailable:
+            return .healthUnavailable
+        case .ready:
+            return .noCandidates
+        }
+    }
+
     init(
         api: PengPengAPI,
         healthKit: HealthKitService,
@@ -52,42 +82,34 @@ final class TodayWorkoutStore {
 
     func refresh() async {
         healthKitAccess = healthKit.accessState
-
-        guard api.isAuthenticated else {
-            applyMockState()
-            return
-        }
-
         isLoading = true
         defer { isLoading = false }
 
         do {
-            let presences = try await api.fetchTodayPresences()
-            let mine = try await api.fetchMyTodayPresence()
-
-            if let mine,
-               let workout = PBMapping.workoutSummary(
-                   from: mine,
-                   nearbyCount: presences.filter { $0.sport == mine.sport }.count
-               ) {
-                hasTodayPresence = true
-                displayWorkout = workout
+            if healthKitAccess == .ready {
                 candidates = try await healthKit.fetchTodayCandidates()
                 restoreOrApplySelection()
+            } else {
+                candidates = []
+                selectedCandidateID = nil
+            }
+
+            guard api.isAuthenticated else {
+                hasTodayPresence = false
+                updateDisplayWorkout(nearbyPresences: [])
                 lastError = nil
                 return
             }
 
-            hasTodayPresence = false
-            candidates = try await healthKit.fetchTodayCandidates()
-            restoreOrApplySelection()
+            let presences = try await api.fetchTodayPresences()
+            let mine = try await api.fetchMyTodayPresence()
+            hasTodayPresence = mine != nil
             updateDisplayWorkout(nearbyPresences: presences)
             lastError = nil
         } catch {
             lastError = error.localizedDescription
-            if !api.isAuthenticated {
-                applyMockState()
-            }
+            hasTodayPresence = false
+            updateDisplayWorkout(nearbyPresences: [])
         }
     }
 
@@ -95,10 +117,12 @@ final class TodayWorkoutStore {
         selectedCandidateID = id
         UserDefaults.standard.set(id, forKey: selectionStorageKey)
         Task {
-            if api.isAuthenticated {
-                let presences = (try? await api.fetchTodayPresences()) ?? []
-                updateDisplayWorkout(nearbyPresences: presences)
+            let presences: [PBPresenceRecord] = if api.isAuthenticated {
+                (try? await api.fetchTodayPresences()) ?? []
+            } else {
+                []
             }
+            updateDisplayWorkout(nearbyPresences: presences)
         }
     }
 
@@ -160,17 +184,15 @@ final class TodayWorkoutStore {
         )
     }
 
-    private func applyMockState() {
-        displayWorkout = MockData.todayWorkout
-        hasTodayPresence = false
-        candidates = []
-        selectedCandidateID = nil
-    }
-
     private func restoreOrApplySelection() {
+        guard let latest = candidates.first else {
+            selectedCandidateID = nil
+            return
+        }
+
         if candidates.count == 1 {
-            selectedCandidateID = candidates[0].id
-            UserDefaults.standard.set(candidates[0].id, forKey: selectionStorageKey)
+            selectedCandidateID = latest.id
+            UserDefaults.standard.set(latest.id, forKey: selectionStorageKey)
             return
         }
 
@@ -180,7 +202,8 @@ final class TodayWorkoutStore {
             return
         }
 
-        selectedCandidateID = nil
+        selectedCandidateID = latest.id
+        UserDefaults.standard.set(latest.id, forKey: selectionStorageKey)
     }
 
     private func updateDisplayWorkout(nearbyPresences: [PBPresenceRecord]) {
