@@ -1,8 +1,11 @@
+import CoreLocation
 import MapKit
 import SwiftUI
 
 struct NearbyMapView: View {
     let zones: [SportZone]
+    let userCoordinate: CLLocationCoordinate2D
+    var fuzzyRadiusMeters: CLLocationDistance = MockData.fuzzyRadiusMeters
     @Binding var cameraPosition: MapCameraPosition
     var highlightedZoneID: String?
     var edgeToEdge: Bool = false
@@ -24,14 +27,14 @@ struct NearbyMapView: View {
 
     @MapContentBuilder
     private var fuzzyRangeCircle: some MapContent {
-        MapCircle(center: MockData.mapCenter, radius: MockData.fuzzyRadiusMeters)
+        MapCircle(center: userCoordinate, radius: fuzzyRadiusMeters)
             .foregroundStyle(Color.black.opacity(0.05))
             .stroke(Color.black.opacity(0.14), lineWidth: 1.5)
     }
 
     @MapContentBuilder
     private var userAnnotation: some MapContent {
-        Annotation("我", coordinate: MockData.userCoordinate, anchor: .center) {
+        Annotation("我", coordinate: userCoordinate, anchor: .center) {
             UserLocationMarker()
         }
     }
@@ -70,6 +73,7 @@ private struct MapFrameModifier: ViewModifier {
 #Preview {
     NearbyMapView(
         zones: MockData.sportZones,
+        userCoordinate: MockData.userCoordinate,
         cameraPosition: .constant(MockData.nearbyCameraPosition),
         edgeToEdge: true,
         onZoneTap: { _ in }

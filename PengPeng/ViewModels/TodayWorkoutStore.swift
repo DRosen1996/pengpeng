@@ -184,6 +184,26 @@ final class TodayWorkoutStore {
         )
     }
 
+    func resolveMapCoordinate() async -> CLLocationCoordinate2D {
+        if let location = try? await location.requestLocation() {
+            return location.coordinate
+        }
+
+        if api.isAuthenticated,
+           let profileHash = try? await api.fetchCurrentUser().geohash?
+            .trimmingCharacters(in: .whitespacesAndNewlines),
+           !profileHash.isEmpty,
+           let coordinate = Geohash.decodeCoordinate(String(profileHash.prefix(5))) {
+            return coordinate
+        }
+
+        if let coordinate = Geohash.decodeCoordinate(APIConfig.defaultGeohashPrefix) {
+            return coordinate
+        }
+
+        return MockData.userCoordinate
+    }
+
     private func restoreOrApplySelection() {
         guard let latest = candidates.first else {
             selectedCandidateID = nil

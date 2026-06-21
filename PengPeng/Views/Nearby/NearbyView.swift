@@ -14,6 +14,7 @@ struct NearbyView: View {
         ZStack(alignment: .bottom) {
             NearbyMapView(
                 zones: viewModel.zones,
+                userCoordinate: viewModel.userCoordinate,
                 cameraPosition: $viewModel.mapCameraPosition,
                 highlightedZoneID: viewModel.highlightedZoneID,
                 edgeToEdge: true,

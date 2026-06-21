@@ -1,3 +1,4 @@
+import CoreLocation
 import Foundation
 import MapKit
 import Observation
@@ -29,7 +30,9 @@ enum NearbySheetRoute: Identifiable, Equatable {
 final class NearbyViewModel {
     private let api: PengPengAPI
     private let workoutStore: TodayWorkoutStore
+    private var hasCenteredMapOnUser = false
 
+    var userCoordinate: CLLocationCoordinate2D = MockData.userCoordinate
     var zones: [SportZone] = MockData.sportZones
     var sameSportUsers: [NearbyUser] = []
     var activeSheet: NearbySheetRoute?
@@ -73,6 +76,7 @@ final class NearbyViewModel {
     }
 
     func load() async {
+        await refreshUserLocation()
         await workoutStore.refresh()
 
         guard api.isAuthenticated else {
@@ -104,6 +108,28 @@ final class NearbyViewModel {
 
     func requestHealthAccess() async {
         await workoutStore.requestHealthAccess()
+    }
+
+    func refreshUserLocation() async {
+        let coordinate = await workoutStore.resolveMapCoordinate()
+        userCoordinate = coordinate
+
+        guard !hasCenteredMapOnUser, highlightedZoneID == nil else { return }
+        hasCenteredMapOnUser = true
+        withMapAnimation {
+            mapCameraPosition = Self.nearbyCameraPosition(center: coordinate)
+        }
+    }
+
+    static func nearbyCameraPosition(center: CLLocationCoordinate2D) -> MapCameraPosition {
+        .camera(
+            MapCamera(
+                centerCoordinate: center,
+                distance: 9_500,
+                heading: 0,
+                pitch: 0
+            )
+        )
     }
 
     func loadUsers(for zone: SportZone) async {
@@ -138,7 +164,7 @@ final class NearbyViewModel {
     func resetMapFocus() {
         highlightedZoneID = nil
         withMapAnimation {
-            mapCameraPosition = MockData.nearbyCameraPosition
+            mapCameraPosition = Self.nearbyCameraPosition(center: userCoordinate)
         }
     }
 

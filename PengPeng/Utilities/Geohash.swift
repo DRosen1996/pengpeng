@@ -1,3 +1,4 @@
+import CoreLocation
 import Foundation
 
 enum Geohash {
@@ -41,5 +42,49 @@ enum Geohash {
         }
 
         return hash
+    }
+
+    static func decodeCenter(_ hash: String) -> (latitude: Double, longitude: Double)? {
+        let normalized = hash.lowercased()
+        guard !normalized.isEmpty else { return nil }
+
+        var latRange = (-90.0, 90.0)
+        var lonRange = (-180.0, 180.0)
+        var even = true
+
+        for char in normalized {
+            guard let index = base32.firstIndex(of: char) else { return nil }
+            var value = index
+
+            for bitIndex in (0..<5).reversed() {
+                let bit = (value >> bitIndex) & 1
+                if even {
+                    let mid = (lonRange.0 + lonRange.1) / 2
+                    if bit == 1 {
+                        lonRange.0 = mid
+                    } else {
+                        lonRange.1 = mid
+                    }
+                } else {
+                    let mid = (latRange.0 + latRange.1) / 2
+                    if bit == 1 {
+                        latRange.0 = mid
+                    } else {
+                        latRange.1 = mid
+                    }
+                }
+                even.toggle()
+            }
+        }
+
+        return (
+            latitude: (latRange.0 + latRange.1) / 2,
+            longitude: (lonRange.0 + lonRange.1) / 2
+        )
+    }
+
+    static func decodeCoordinate(_ hash: String) -> CLLocationCoordinate2D? {
+        guard let center = decodeCenter(hash) else { return nil }
+        return CLLocationCoordinate2D(latitude: center.latitude, longitude: center.longitude)
     }
 }
