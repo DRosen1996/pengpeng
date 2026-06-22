@@ -16,5 +16,10 @@ enum APIConfig {
     /// 联调阶段默认 geohash（深圳湾 mock 区，精度 5 ≈ 2.4km）
     static let defaultGeohashPrefix = "ws10e"
 
+    /// users.tags 含此值时，今日 presence 可替代本机 HealthKit 训练
+    static let testBypassTag = "test_bypass"
+
+    static let minimumWorkoutDurationMinutes = 15
+
     static var useMockFallback: Bool { false }
 }

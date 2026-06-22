@@ -88,8 +88,10 @@ enum PBMapping {
         let userBID = record.userB.id ?? userB?.id
 
         guard let userAID, let userBID else { return nil }
-        let partnerRecord = userAID == currentUserID ? userB : userA
-        guard let partnerRecord else { return nil }
+
+        let partnerID = userAID == currentUserID ? userBID : userAID
+        let partnerExpanded = userAID == currentUserID ? userB : userA
+        let partnerRecord = partnerExpanded ?? minimalUser(id: partnerID, name: "运动者")
 
         let partnerPresence = placeholderPresence(for: partnerRecord)
         guard let partner = nearbyUser(from: partnerRecord, presence: partnerPresence) else { return nil }
@@ -138,6 +140,30 @@ enum PBMapping {
             durationMinutes: presence.durationMinutes ?? 0,
             energyKcal: presence.energyKcal ?? 0,
             nearbySameSportCount: nearbyCount
+        )
+    }
+
+    static func hasTestBypassTag(_ user: PBUserRecord) -> Bool {
+        user.tags?.contains(APIConfig.testBypassTag) == true
+    }
+
+    static func shouldUsePresenceBypass(user: PBUserRecord, presence: PBPresenceRecord) -> Bool {
+        guard hasTestBypassTag(user) else { return false }
+        guard let minutes = presence.durationMinutes,
+              minutes >= APIConfig.minimumWorkoutDurationMinutes else { return false }
+        return SportType(rawValue: presence.sport) != nil
+    }
+
+    static func todayWorkoutCandidate(from presence: PBPresenceRecord) -> TodayWorkoutCandidate? {
+        guard let sport = SportType(rawValue: presence.sport),
+              let minutes = presence.durationMinutes,
+              minutes >= APIConfig.minimumWorkoutDurationMinutes else { return nil }
+        return TodayWorkoutCandidate(
+            id: "presence-\(presence.id)",
+            sport: sport,
+            durationMinutes: minutes,
+            energyKcal: presence.energyKcal ?? 0,
+            startDate: presence.date ?? Date()
         )
     }
 

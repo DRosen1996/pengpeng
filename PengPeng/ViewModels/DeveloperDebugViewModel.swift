@@ -84,6 +84,7 @@ final class DeveloperDebugViewModel {
             .init(id: "candidates", label: "今日候选数", value: "\(store.candidates.count)"),
             .init(id: "selected", label: "选中训练 ID", value: store.selectedCandidateID ?? "—"),
             .init(id: "presence", label: "已同步 presence", value: store.hasTodayPresence ? "是" : "否"),
+            .init(id: "bypass", label: "presence 回填", value: store.usesPresenceBypass ? "是" : "否"),
             .init(id: "can-sync", label: "可同步", value: store.canSync ? "是" : "否"),
             .init(
                 id: "display",

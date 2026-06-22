@@ -26,6 +26,7 @@ final class TodayWorkoutStore {
         nearbySameSportCount: 0
     )
     var hasTodayPresence = false
+    var usesPresenceBypass = false
     var healthKitAccess: HealthKitAccessState = .notDetermined
     var isSyncing = false
     var isLoading = false
@@ -41,15 +42,15 @@ final class TodayWorkoutStore {
     }
 
     var needsHealthAuthorization: Bool {
-        api.isAuthenticated && healthKitAccess == .notDetermined
+        api.isAuthenticated && !usesPresenceBypass && healthKitAccess == .notDetermined
     }
 
     var healthKitUnavailable: Bool {
-        api.isAuthenticated && healthKitAccess == .unavailable
+        api.isAuthenticated && !usesPresenceBypass && healthKitAccess == .unavailable
     }
 
     var hasNoCandidates: Bool {
-        api.isAuthenticated && healthKitAccess == .ready && !hasTodayPresence && candidates.isEmpty
+        api.isAuthenticated && !usesPresenceBypass && healthKitAccess == .ready && !hasTodayPresence && candidates.isEmpty
     }
 
     var hasDisplayableWorkout: Bool {
@@ -84,9 +85,35 @@ final class TodayWorkoutStore {
         healthKitAccess = healthKit.accessState
         isLoading = true
         defer { isLoading = false }
+        usesPresenceBypass = false
 
         do {
-            if healthKitAccess == .ready {
+            guard api.isAuthenticated else {
+                hasTodayPresence = false
+                candidates = []
+                selectedCandidateID = nil
+                updateDisplayWorkout(nearbyPresences: [])
+                lastError = nil
+                return
+            }
+
+            async let presencesTask = api.fetchTodayPresences()
+            async let mineTask = api.fetchMyTodayPresence()
+            async let userTask = api.fetchCurrentUser()
+
+            let presences = try await presencesTask
+            let mine = try await mineTask
+            let user = try await userTask
+
+            hasTodayPresence = mine != nil
+
+            if let mine,
+               PBMapping.shouldUsePresenceBypass(user: user, presence: mine),
+               let candidate = PBMapping.todayWorkoutCandidate(from: mine) {
+                candidates = [candidate]
+                selectedCandidateID = candidate.id
+                usesPresenceBypass = true
+            } else if healthKitAccess == .ready {
                 candidates = try await healthKit.fetchTodayCandidates()
                 restoreOrApplySelection()
             } else {
@@ -94,21 +121,14 @@ final class TodayWorkoutStore {
                 selectedCandidateID = nil
             }
 
-            guard api.isAuthenticated else {
-                hasTodayPresence = false
-                updateDisplayWorkout(nearbyPresences: [])
-                lastError = nil
-                return
-            }
-
-            let presences = try await api.fetchTodayPresences()
-            let mine = try await api.fetchMyTodayPresence()
-            hasTodayPresence = mine != nil
             updateDisplayWorkout(nearbyPresences: presences)
             lastError = nil
         } catch {
             lastError = error.localizedDescription
             hasTodayPresence = false
+            usesPresenceBypass = false
+            candidates = []
+            selectedCandidateID = nil
             updateDisplayWorkout(nearbyPresences: [])
         }
     }
