@@ -1,5 +1,12 @@
 import Foundation
 
+private protocol PBIdentifiableRecord {
+    var id: String { get }
+}
+
+extension PBUserRecord: PBIdentifiableRecord {}
+extension PBConversationRecord: PBIdentifiableRecord {}
+
 /// PocketBase 关系字段：未 expand 时为 id 字符串，expand 后为完整对象。
 enum PBRelation<T: Decodable>: Decodable {
     case id(String)
@@ -9,7 +16,7 @@ enum PBRelation<T: Decodable>: Decodable {
         switch self {
         case .id(let value):
             return value
-        case .expanded(let value as PBUserRecord):
+        case .expanded(let value as PBIdentifiableRecord):
             return value.id
         default:
             return nil

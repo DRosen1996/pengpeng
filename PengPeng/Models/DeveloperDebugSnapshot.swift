@@ -21,6 +21,7 @@ struct DeveloperDebugSnapshot: Equatable {
     let workoutRows: [Row]
     let locationRows: [Row]
     let accountRows: [Row]
+    let realtimeRows: [Row]
 }
 
 extension HKAuthorizationStatus {

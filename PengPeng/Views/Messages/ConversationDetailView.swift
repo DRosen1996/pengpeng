@@ -11,6 +11,10 @@ struct ConversationDetailView: View {
         store.conversation(for: conversationID)
     }
 
+    private var messages: [TopicMessage] {
+        store.conversation(for: conversationID)?.messages ?? []
+    }
+
     var body: some View {
         Group {
             if let conversation {
@@ -24,6 +28,13 @@ struct ConversationDetailView: View {
         .onAppear {
             selectedTopic = conversation?.topic
         }
+        .task(id: conversationID) {
+            await store.refreshMessages(conversationID: conversationID)
+            await store.subscribeMessages(conversationID: conversationID)
+        }
+        .onDisappear {
+            store.unsubscribeMessages(conversationID: conversationID)
+        }
     }
 
     @ViewBuilder
@@ -36,13 +47,13 @@ struct ConversationDetailView: View {
                         if conversation.phase == .awaitingTopic {
                             topicSelectionSection
                         } else {
-                            MessageBubbleList(messages: conversation.messages)
+                            MessageBubbleList(messages: messages)
                                 .id("messages")
                         }
                     }
                     .padding(16)
                 }
-                .onChange(of: conversation.messages.count) { _, _ in
+                .onChange(of: messages.count) { _, _ in
                     withAnimation {
                         proxy.scrollTo("messages", anchor: .bottom)
                     }

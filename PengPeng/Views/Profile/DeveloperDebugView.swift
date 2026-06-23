@@ -3,8 +3,8 @@ import SwiftUI
 struct DeveloperDebugView: View {
     @State private var viewModel: DeveloperDebugViewModel
 
-    init(session: AppSession) {
-        _viewModel = State(initialValue: DeveloperDebugViewModel(session: session))
+    init(session: AppSession, conversationStore: ConversationStore) {
+        _viewModel = State(initialValue: DeveloperDebugViewModel(session: session, conversationStore: conversationStore))
     }
 
     var body: some View {
@@ -17,6 +17,7 @@ struct DeveloperDebugView: View {
                     debugSection(title: "运动 / Presence", rows: snapshot.workoutRows)
                     debugSection(title: "位置 / Geohash", rows: snapshot.locationRows)
                     debugSection(title: "账户", rows: snapshot.accountRows)
+                    debugSection(title: "Realtime / 消息", rows: snapshot.realtimeRows)
                 } else if viewModel.isLoading {
                     ProgressView("加载中…")
                         .frame(maxWidth: .infinity, minHeight: 120)
@@ -117,6 +118,6 @@ struct DeveloperDebugView: View {
 
 #Preview {
     NavigationStack {
-        DeveloperDebugView(session: AppSession())
+        DeveloperDebugView(session: AppSession(), conversationStore: ConversationStore())
     }
 }

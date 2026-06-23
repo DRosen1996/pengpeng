@@ -80,7 +80,7 @@ struct ProfileView: View {
 
                     #if DEBUG
                     NavigationLink {
-                        DeveloperDebugView(session: session)
+                        DeveloperDebugView(session: session, conversationStore: store)
                     } label: {
                         Text("开发者")
                             .font(.system(size: 13, weight: .medium))
@@ -105,7 +105,7 @@ struct ProfileView: View {
                 await workoutStore.refresh()
             }
             .navigationDestination(isPresented: $showDeveloperDebug) {
-                DeveloperDebugView(session: session)
+                DeveloperDebugView(session: session, conversationStore: store)
             }
         }
     }

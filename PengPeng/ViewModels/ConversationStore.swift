@@ -5,14 +5,19 @@ import Observation
 @Observable
 final class ConversationStore {
     private let api: PengPengAPI
+    private let realtime = PocketBaseRealtimeClient()
 
     var pendingBumps: [PendingBump] = []
     var conversations: [SportConversation] = []
     var isLoading = false
     var lastError: String?
+    var realtimeStatus: String = "idle"
 
     init(api: PengPengAPI) {
         self.api = api
+        realtime.setMessageHandler { [weak self] action, record in
+            self?.handleMessageEvent(action: action, record: record)
+        }
         if !api.isAuthenticated {
             loadMockData()
         }
@@ -63,12 +68,41 @@ final class ConversationStore {
     }
 
     func reset() {
+        stopRealtime()
         pendingBumps = []
         conversations = []
         lastError = nil
         if !api.isAuthenticated {
             loadMockData()
         }
+    }
+
+    func stopRealtime() {
+        realtime.disconnect()
+        realtimeStatus = "idle"
+    }
+
+    var realtimeDebugSummary: String {
+        RealtimeDebugLog.recentSummary
+    }
+
+    func subscribeMessages(conversationID: String) async {
+        guard api.isAuthenticated else { return }
+        let topic = "messages/*?filter=conversation='\(conversationID)'"
+        RealtimeDebugLog.log("ConversationStore subscribe \(conversationID)")
+        do {
+            try await realtime.subscribe(topics: [topic])
+            realtimeStatus = realtime.connectionState
+            lastError = nil
+        } catch {
+            realtimeStatus = "error"
+            lastError = error.localizedDescription
+            RealtimeDebugLog.log("subscribe failed: \(error.localizedDescription)")
+        }
+    }
+
+    func unsubscribeMessages(conversationID: String) {
+        stopRealtime()
     }
 
     @discardableResult
@@ -181,6 +215,12 @@ final class ConversationStore {
         do {
             _ = try await api.activateConversation(id: conversationID, topic: topic)
             try await api.seedTopicMessages(conversationID: conversationID, topic: topic, partnerName: "")
+            let expiresAt = Date().addingTimeInterval(24 * 3600)
+            updateConversation(id: conversationID) { conversation in
+                conversation.topic = topic
+                conversation.phase = .active
+                conversation.expiresAt = expiresAt
+            }
             await refreshMessages(conversationID: conversationID)
         } catch {
             lastError = error.localizedDescription
@@ -199,20 +239,111 @@ final class ConversationStore {
             return
         }
 
+        let pendingID = "pending-\(UUID().uuidString)"
+        let optimistic = TopicMessage(id: pendingID, isMine: true, senderName: "我", text: trimmed)
+        updateConversation(id: conversationID) { $0.messages.append(optimistic) }
+
         do {
-            _ = try await api.sendMessage(conversationID: conversationID, text: trimmed)
-            await refreshMessages(conversationID: conversationID)
+            let record = try await api.sendMessage(conversationID: conversationID, text: trimmed)
+            applySentMessage(record, conversationID: conversationID, pendingID: pendingID)
+            lastError = nil
+        } catch {
+            updateConversation(id: conversationID) { conversation in
+                conversation.messages.removeAll { $0.id == pendingID }
+            }
+            lastError = error.localizedDescription
+        }
+    }
+
+    func refreshMessages(conversationID: String) async {
+        guard conversations.contains(where: { $0.id == conversationID }) else { return }
+        do {
+            let messages = try await api.fetchMessages(conversationID: conversationID)
+            updateConversation(id: conversationID) { $0.messages = messages }
+            lastError = nil
         } catch {
             lastError = error.localizedDescription
         }
     }
 
-    private func refreshMessages(conversationID: String) async {
-        guard let index = conversations.firstIndex(where: { $0.id == conversationID }) else { return }
-        do {
-            conversations[index].messages = try await api.fetchMessages(conversationID: conversationID)
-        } catch {
-            lastError = error.localizedDescription
+    private func updateConversation(
+        id: String,
+        _ transform: (inout SportConversation) -> Void
+    ) {
+        guard let index = conversations.firstIndex(where: { $0.id == id }) else { return }
+        var updated = conversations[index]
+        transform(&updated)
+        conversations[index] = updated
+    }
+
+    private func applySentMessage(_ record: PBMessageRecord, conversationID: String, pendingID: String) {
+        guard let userID = api.currentUserID,
+              let message = PBMapping.topicMessage(
+                  from: record,
+                  currentUserID: userID,
+                  currentUserName: api.currentUserName ?? "我"
+              )
+        else { return }
+
+        updateConversation(id: conversationID) { conversation in
+            if let pendingIndex = conversation.messages.firstIndex(where: { $0.id == pendingID }) {
+                conversation.messages[pendingIndex] = message
+            } else if !conversation.messages.contains(where: { $0.id == message.id }) {
+                conversation.messages.append(message)
+            }
+
+            conversation.messages.removeAll {
+                $0.id.hasPrefix("pending-") && $0.id != message.id && $0.text == message.text && $0.isMine
+            }
+        }
+    }
+
+    private func handleMessageEvent(action: PBRealtimeAction, record: PBMessageRecord) {
+        realtimeStatus = "event:\(action.rawValue)"
+
+        guard action == .create else {
+            RealtimeDebugLog.log("skip non-create action \(action.rawValue)")
+            return
+        }
+
+        guard let userID = api.currentUserID else {
+            RealtimeDebugLog.log("skip message: no current user")
+            return
+        }
+
+        guard let message = PBMapping.topicMessage(
+            from: record,
+            currentUserID: userID,
+            currentUserName: api.currentUserName ?? "我"
+        ) else {
+            RealtimeDebugLog.log("skip message: mapping failed id=\(record.id)")
+            return
+        }
+
+        let conversationID = record.conversation.id
+        guard let conversationID else {
+            RealtimeDebugLog.log("skip message: no conversation id record=\(record.id)")
+            return
+        }
+
+        guard conversations.contains(where: { $0.id == conversationID }) else {
+            RealtimeDebugLog.log("skip message: conversation \(conversationID) not in store")
+            return
+        }
+
+        updateConversation(id: conversationID) { conversation in
+            if message.isMine {
+                conversation.messages.removeAll {
+                    $0.id.hasPrefix("pending-") && $0.text == message.text && $0.isMine
+                }
+            }
+
+            guard !conversation.messages.contains(where: { $0.id == message.id }) else {
+                RealtimeDebugLog.log("skip duplicate message \(message.id)")
+                return
+            }
+            conversation.messages.append(message)
+            RealtimeDebugLog.log("appended message \(message.id) conv=\(conversationID) count=\(conversation.messages.count)")
         }
     }
 
@@ -270,10 +401,12 @@ final class ConversationStore {
         let partner = conversations[index].partner
         let messages = MockData.topicConversation(for: topic, partner: partner)
         let now = Date()
-        conversations[index].topic = topic
-        conversations[index].messages = messages
-        conversations[index].expiresAt = now.addingTimeInterval(24 * 3600)
-        conversations[index].phase = .active
+        var updated = conversations[index]
+        updated.topic = topic
+        updated.messages = messages
+        updated.expiresAt = now.addingTimeInterval(24 * 3600)
+        updated.phase = .active
+        conversations[index] = updated
     }
 
     private func legacySendMessage(conversationID: String, text: String) {
@@ -281,6 +414,6 @@ final class ConversationStore {
               conversations[index].phase == .active
         else { return }
         let message = TopicMessage(id: UUID().uuidString, isMine: true, senderName: "我", text: text)
-        conversations[index].messages.append(message)
+        updateConversation(id: conversationID) { $0.messages.append(message) }
     }
 }

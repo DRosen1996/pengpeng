@@ -5,6 +5,7 @@ import Observation
 @Observable
 final class DeveloperDebugViewModel {
     private let session: AppSession
+    private let conversationStore: ConversationStore
 
     var snapshot: DeveloperDebugSnapshot?
     var isLoading = false
@@ -13,8 +14,9 @@ final class DeveloperDebugViewModel {
     var actionMessage: String?
     private var profileGeohash: String?
 
-    init(session: AppSession) {
+    init(session: AppSession, conversationStore: ConversationStore) {
         self.session = session
+        self.conversationStore = conversationStore
     }
 
     func refresh() async {
@@ -107,11 +109,18 @@ final class DeveloperDebugViewModel {
             .init(id: "user-name", label: "用户名", value: session.userName ?? "—")
         ]
 
+        let realtimeRows: [DeveloperDebugSnapshot.Row] = [
+            .init(id: "rt-status", label: "Realtime 状态", value: conversationStore.realtimeStatus),
+            .init(id: "rt-error", label: "消息 Store 错误", value: conversationStore.lastError ?? "—"),
+            .init(id: "rt-log", label: "Realtime 日志", value: conversationStore.realtimeDebugSummary)
+        ]
+
         return DeveloperDebugSnapshot(
             permissionRows: permissionRows,
             workoutRows: workoutRows,
             locationRows: locationRows,
-            accountRows: accountRows
+            accountRows: accountRows,
+            realtimeRows: realtimeRows
         )
     }
 }

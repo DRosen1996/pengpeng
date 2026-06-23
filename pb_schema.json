@@ -1040,8 +1040,8 @@
   },
   {
     "id": "pbc_2605467279",
-    "listRule": "@request.auth.id != \"\" && conversation.user_a = @request.auth.id || conversation.user_b = @request.auth.id",
-    "viewRule": "@request.auth.id != \"\"",
+    "listRule": "@request.auth.id != \"\" && (conversation.user_a = @request.auth.id || conversation.user_b = @request.auth.id)",
+    "viewRule": "@request.auth.id != \"\" && (conversation.user_a = @request.auth.id || conversation.user_b = @request.auth.id)",
     "createRule": "@request.auth.id != \"\" && sender = @request.auth.id",
     "updateRule": "sender = @request.auth.id",
     "deleteRule": "sender = @request.auth.id",
