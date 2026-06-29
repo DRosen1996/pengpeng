@@ -48,6 +48,18 @@ struct DeveloperDebugView: View {
         .task {
             await viewModel.refresh()
         }
+        .navigationDestination(isPresented: $viewModel.showLocationPicker) {
+            DeveloperLocationPickerView(
+                initialCoordinate: viewModel.locationPickerInitialCoordinate,
+                isSaving: viewModel.isUpdatingLocation,
+                onSave: { coordinate in
+                    Task { await viewModel.updateUserLocation(at: coordinate) }
+                },
+                onCancel: {
+                    viewModel.showLocationPicker = false
+                }
+            )
+        }
     }
 
     @ViewBuilder
@@ -99,6 +111,11 @@ struct DeveloperDebugView: View {
                     Task { await viewModel.probeLocation() }
                 }
                 .disabled(viewModel.isProbingLocation)
+
+                PrimaryButton(title: "地图选点改定位") {
+                    viewModel.openLocationPicker()
+                }
+                .disabled(!viewModel.isAuthenticated || viewModel.isUpdatingLocation)
 
                 if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
                     Link(destination: settingsURL) {

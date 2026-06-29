@@ -70,6 +70,7 @@
 		B10000000000000000000043 /* AppleAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000045 /* AppleAuthService.swift */; };
 		B10000000000000000000044 /* PocketBaseRealtimeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000046 /* PocketBaseRealtimeClient.swift */; };
 		B10000000000000000000045 /* RealtimeDebugLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000047 /* RealtimeDebugLog.swift */; };
+		B10000000000000000000046 /* DeveloperLocationPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000048 /* DeveloperLocationPickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -138,6 +139,7 @@
 		B20000000000000000000045 /* AppleAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuthService.swift; sourceTree = "<group>"; };
 		B20000000000000000000046 /* PocketBaseRealtimeClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PocketBaseRealtimeClient.swift; sourceTree = "<group>"; };
 		B20000000000000000000047 /* RealtimeDebugLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeDebugLog.swift; sourceTree = "<group>"; };
+		B20000000000000000000048 /* DeveloperLocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperLocationPickerView.swift; sourceTree = "<group>"; };
 		B30000000000000000000001 /* PengPeng.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PengPeng.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -286,6 +288,7 @@
 				B2000000000000000000001E /* SportCardSection.swift */,
 				B2000000000000000000001F /* ReceivedBumpsSection.swift */,
 				B20000000000000000000044 /* DeveloperDebugView.swift */,
+				B20000000000000000000048 /* DeveloperLocationPickerView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -482,6 +485,7 @@
 				B10000000000000000000040 /* DeveloperDebugSnapshot.swift in Sources */,
 				B10000000000000000000041 /* DeveloperDebugViewModel.swift in Sources */,
 				B10000000000000000000042 /* DeveloperDebugView.swift in Sources */,
+				B10000000000000000000046 /* DeveloperLocationPickerView.swift in Sources */,
 				B10000000000000000000043 /* AppleAuthService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

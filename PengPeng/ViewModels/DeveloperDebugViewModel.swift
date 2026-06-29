@@ -1,3 +1,4 @@
+import CoreLocation
 import Foundation
 import Observation
 
@@ -12,6 +13,9 @@ final class DeveloperDebugViewModel {
     var locationProbeResult: String?
     var isProbingLocation = false
     var actionMessage: String?
+    var showLocationPicker = false
+    var isUpdatingLocation = false
+    var isAuthenticated: Bool { session.isAuthenticated }
     private var profileGeohash: String?
 
     init(session: AppSession, conversationStore: ConversationStore) {
@@ -66,6 +70,51 @@ final class DeveloperDebugViewModel {
             actionMessage = nil
         }
         snapshot = buildSnapshot()
+    }
+
+    func openLocationPicker() {
+        guard session.isAuthenticated else {
+            actionMessage = "请先登录后再修改定位"
+            return
+        }
+        showLocationPicker = true
+    }
+
+    var locationPickerInitialCoordinate: CLLocationCoordinate2D {
+        if let profileGeohash,
+           let coordinate = Geohash.decodeCoordinate(String(profileGeohash.prefix(5))) {
+            return coordinate
+        }
+        if let coordinate = Geohash.decodeCoordinate(APIConfig.defaultGeohashPrefix) {
+            return coordinate
+        }
+        return MockData.userCoordinate
+    }
+
+    func updateUserLocation(at coordinate: CLLocationCoordinate2D) async {
+        guard session.isAuthenticated else {
+            actionMessage = "请先登录后再修改定位"
+            return
+        }
+
+        isUpdatingLocation = true
+        defer { isUpdatingLocation = false }
+
+        let geohash = Geohash.encode(
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude,
+            precision: 5
+        )
+
+        do {
+            _ = try await session.api.updateCurrentUser(geohash: geohash)
+            profileGeohash = geohash
+            showLocationPicker = false
+            actionMessage = "已更新 Profile geohash：\(geohash)"
+            snapshot = buildSnapshot()
+        } catch {
+            actionMessage = "更新定位失败：\(error.localizedDescription)"
+        }
     }
 
     private func buildSnapshot() -> DeveloperDebugSnapshot {
