@@ -177,6 +177,29 @@ final class TodayWorkoutStore {
         }
     }
 
+    /// 开发者调试：更新 Profile geohash；若已有今日 presence 则一并更新其 geohash。
+    /// - Returns: 是否同时更新了 presence
+    @discardableResult
+    func updateTodayPresenceLocation(geohash: String) async throws -> Bool {
+        if let mine = try await api.fetchMyTodayPresence(),
+           let sport = SportType(rawValue: mine.sport) {
+            _ = try await api.upsertTodayPresence(
+                sport: sport,
+                durationMinutes: mine.durationMinutes ?? 0,
+                energyKcal: mine.energyKcal ?? 0,
+                geohash: geohash,
+                streakLabel: mine.streakLabel,
+                focusLabel: mine.focusLabel
+            )
+            await refresh()
+            lastError = nil
+            return true
+        }
+
+        _ = try await api.updateCurrentUser(geohash: geohash)
+        return false
+    }
+
     func healthKitDebugInfo() -> HealthKitDebugInfo {
         healthKit.debugInfo()
     }

@@ -59,6 +59,7 @@ struct DeveloperDebugView: View {
                     viewModel.showLocationPicker = false
                 }
             )
+            .id(viewModel.locationPickerSessionID)
         }
     }
 

@@ -15,7 +15,9 @@ final class DeveloperDebugViewModel {
     var actionMessage: String?
     var showLocationPicker = false
     var isUpdatingLocation = false
+    var locationPickerSessionID = 0
     var isAuthenticated: Bool { session.isAuthenticated }
+    private var lastPickedCoordinate: CLLocationCoordinate2D?
     private var profileGeohash: String?
 
     init(session: AppSession, conversationStore: ConversationStore) {
@@ -77,10 +79,14 @@ final class DeveloperDebugViewModel {
             actionMessage = "请先登录后再修改定位"
             return
         }
+        locationPickerSessionID += 1
         showLocationPicker = true
     }
 
     var locationPickerInitialCoordinate: CLLocationCoordinate2D {
+        if let lastPickedCoordinate {
+            return lastPickedCoordinate
+        }
         if let profileGeohash,
            let coordinate = Geohash.decodeCoordinate(String(profileGeohash.prefix(5))) {
             return coordinate
@@ -97,20 +103,37 @@ final class DeveloperDebugViewModel {
             return
         }
 
-        isUpdatingLocation = true
-        defer { isUpdatingLocation = false }
-
         let geohash = Geohash.encode(
             latitude: coordinate.latitude,
             longitude: coordinate.longitude,
             precision: 5
         )
 
+        if geohash == profileGeohash {
+            actionMessage = "Geohash 未变化（仍为 \(geohash)），请拖动地图到其他区域后再保存"
+            return
+        }
+
+        isUpdatingLocation = true
+        defer { isUpdatingLocation = false }
+
         do {
-            _ = try await session.api.updateCurrentUser(geohash: geohash)
-            profileGeohash = geohash
+            let updatedPresence = try await session.workoutStore.updateTodayPresenceLocation(geohash: geohash)
+            lastPickedCoordinate = coordinate
+
+            if let user = try? await session.api.fetchCurrentUser(),
+               let serverGeohash = user.geohash?.trimmingCharacters(in: .whitespacesAndNewlines),
+               !serverGeohash.isEmpty {
+                profileGeohash = serverGeohash
+            } else {
+                profileGeohash = geohash
+            }
+
+            await session.workoutStore.refresh()
             showLocationPicker = false
-            actionMessage = "已更新 Profile geohash：\(geohash)"
+            actionMessage = updatedPresence
+                ? "已更新 Profile 与今日 presence geohash：\(profileGeohash ?? geohash)"
+                : "已更新 Profile geohash：\(profileGeohash ?? geohash)（今日无 presence）"
             snapshot = buildSnapshot()
         } catch {
             actionMessage = "更新定位失败：\(error.localizedDescription)"
